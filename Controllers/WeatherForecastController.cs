@@ -36,5 +36,19 @@ namespace aspnetcoreauth.Controllers
             })
             .ToArray();
         }
+
+
+        [HttpGet("user")]
+        public IActionResult GetUser()
+        {
+            var claims = User.Claims.Select(c =>
+                     new
+                     {
+                         Type = c.Type,
+                         Value = c.Value
+                     });
+            
+            return Ok(claims);
+        }
     }
 }

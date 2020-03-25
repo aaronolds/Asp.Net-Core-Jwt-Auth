@@ -31,7 +31,9 @@ namespace aspnetcoreauth.Controllers
               new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
               new Claim(JwtRegisteredClaimNames.GivenName, "Aaron"),
               new Claim(JwtRegisteredClaimNames.FamilyName, "Olds"),
-              new Claim(JwtRegisteredClaimNames.Email, "olds@asdf.com")
+              new Claim(JwtRegisteredClaimNames.Email, "olds@asdf.com"),
+              new Claim("dmps.clients", "[\"1\",\"2\",\"3\",\"4\",\"9\"]"),
+              new Claim("dmps.2.roles", "[\"GRP_W4I9\",\"GRP_DOWNLOADS\",\"GRP_EMPINFO\",\"GRP_LIBRARY\",\"GRP_HUMANRESOURCES\",\"GRP_CORRECTIONS\",\"GRP_REPORTS\",\"GRP_TRANSMITTAL\",\"GRP_EMPMASTER\"]")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
