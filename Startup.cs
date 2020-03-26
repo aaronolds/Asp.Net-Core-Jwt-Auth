@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using aspnetcoreauth.AuthFilter;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -31,10 +32,12 @@ namespace aspnetcoreauth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, HasAuthorizationPermissionHandler>();
             services.AddAuthorization(options =>
-                            {
-                                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
-                            });
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
+            });
 
 
             var key = Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]);

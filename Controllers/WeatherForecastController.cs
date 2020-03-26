@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using aspnetcoreauth.AuthFilter;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,7 +10,7 @@ namespace aspnetcoreauth.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    [HasAuthorizeAttribute(Permissions = "CanAccess")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
