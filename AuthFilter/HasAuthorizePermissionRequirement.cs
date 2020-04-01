@@ -6,9 +6,6 @@ namespace aspnetcoreauth.AuthFilter
     {
         public string Permissions { get; private set; }
 
-        public HasAuthorizePermissionRequirement(string permissions)
-        {
-            Permissions = permissions;
-        }
+        public HasAuthorizePermissionRequirement(string permissions) => Permissions = permissions;
     }
 }

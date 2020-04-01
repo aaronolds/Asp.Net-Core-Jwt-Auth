@@ -25,10 +25,10 @@ namespace aspnetcoreauth.AuthFilter
         {
             try
             {
-                //All custom policies created by us will have " : " as delimiter to identify policy name and values
+                //All custom policies created by us will have " : " as delimiter to identify policy name and values in the HasAuthorizeAttribute
                 //Any delimiter or character can be choosen, and it is upto user choice
 
-                var policy = policyName.Split(":").FirstOrDefault(); //Name for policy and values are set in A2AuthorizePermission Attribute
+                var policy = policyName.Split(":").FirstOrDefault(); //Name for policy and values are set in [HasAuthorizeAttribute(Permissions = "WeatherReader,WeatherAdmin")]
                 var attributeValue = policyName.Split(":").LastOrDefault();
 
                 if (policy != null)
@@ -36,7 +36,7 @@ namespace aspnetcoreauth.AuthFilter
                     //Dynamically building the AuthorizationPolicy and adding the respective requirement based on the policy names which we define in Authroize Attribute.
                     var policyBuilder = new AuthorizationPolicyBuilder();
 
-                    if (policy == "dmps.clients")
+                    if (policy == "clients")
                     {
                         //Authorize Hanlders are created based on Authroize Requirement type.
                         //Adding the object of HasAuthorizePermissionRequirement will invoke the HasAuthorizationPermissionHandler

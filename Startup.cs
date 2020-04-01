@@ -32,6 +32,7 @@ namespace aspnetcoreauth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, HasAuthorizationPermissionHandler>();
             services.AddAuthorization(options =>

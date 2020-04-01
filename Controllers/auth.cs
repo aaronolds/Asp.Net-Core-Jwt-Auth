@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -25,6 +27,15 @@ namespace aspnetcoreauth.Controllers
         public IActionResult Post()
         {
 
+            var clientPermissionClaims = new ClientPermissionClaims();
+            clientPermissionClaims.ClientPermissions.Add(new ClientPermission("1", new List<string>() { "WeatherReader", "WeatherAdmin" }));
+            clientPermissionClaims.ClientPermissions.Add(new ClientPermission("2", new List<string>() { "WeatherAdmin" }));
+            clientPermissionClaims.ClientPermissions.Add(new ClientPermission("3", new List<string>() { "WeatherReader" }));
+            clientPermissionClaims.ClientPermissions.Add(new ClientPermission("4", new List<string>() { "WeatherReader", "WeatherAdmin" }));
+            clientPermissionClaims.ClientPermissions.Add(new ClientPermission("9", new List<string>() { "asdf" }));
+            string jsonString;
+            jsonString = JsonSerializer.Serialize(clientPermissionClaims);
+
             var claims = new[]
             {
               new Claim(JwtRegisteredClaimNames.Sub, "ao3155"),
@@ -32,8 +43,14 @@ namespace aspnetcoreauth.Controllers
               new Claim(JwtRegisteredClaimNames.GivenName, "Aaron"),
               new Claim(JwtRegisteredClaimNames.FamilyName, "Olds"),
               new Claim(JwtRegisteredClaimNames.Email, "olds@asdf.com"),
-              new Claim("dmps.clients", "[\"1\",\"2\",\"3\",\"4\",\"9\"]"),
-              new Claim("dmps.2.roles", "[\"GRP_W4I9\",\"GRP_DOWNLOADS\",\"GRP_EMPINFO\",\"GRP_LIBRARY\",\"GRP_HUMANRESOURCES\",\"GRP_CORRECTIONS\",\"GRP_REPORTS\",\"GRP_TRANSMITTAL\",\"GRP_EMPMASTER\"]")
+              new Claim("clients", "1,2,3,4,9"),
+              new Claim("clientpermisions", jsonString)
+
+            //   new Claim("dmps.1.roles", "\"GRP_DOWNLOADS\",\"GRP_EMPINFO\",\"GRP_LIBRARY\",\"GRP_HUMANRESOURCES\",\"GRP_CORRECTIONS\",\"GRP_REPORTS\",\"GRP_TRANSMITTAL\",\"GRP_EMPMASTER\""),
+            //   new Claim("dmps.2.roles", "\"GRP_W4I9\",\"GRP_EMPINFO\",\"GRP_LIBRARY\",\"GRP_HUMANRESOURCES\",\"GRP_CORRECTIONS\",\"GRP_REPORTS\",\"GRP_TRANSMITTAL\",\"GRP_EMPMASTER\""),
+            //   new Claim("dmps.4.roles", "\"GRP_W4I9\",\"GRP_DOWNLOADS\",\"GRP_LIBRARY\",\"GRP_HUMANRESOURCES\",\"GRP_CORRECTIONS\",\"GRP_REPORTS\",\"GRP_TRANSMITTAL\",\"GRP_EMPMASTER\""),
+            //   new Claim("dmps.4.roles", "\"GRP_W4I9\",\"GRP_DOWNLOADS\",\"GRP_EMPINFO\",\"GRP_HUMANRESOURCES\",\"GRP_CORRECTIONS\",\"GRP_REPORTS\",\"GRP_TRANSMITTAL\",\"GRP_EMPMASTER\""),
+            //   new Claim("dmps.9.roles", "\"GRP_W4I9\",\"GRP_DOWNLOADS\",\"GRP_EMPINFO\",\"GRP_LIBRARY\",\"GRP_CORRECTIONS\",\"GRP_REPORTS\",\"GRP_TRANSMITTAL\",\"GRP_EMPMASTER\"")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
@@ -54,4 +71,5 @@ namespace aspnetcoreauth.Controllers
             });
         }
     }
+
 }

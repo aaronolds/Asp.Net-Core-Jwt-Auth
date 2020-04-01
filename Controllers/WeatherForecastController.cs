@@ -9,8 +9,8 @@ using Microsoft.Extensions.Logging;
 namespace aspnetcoreauth.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    [HasAuthorizeAttribute(Permissions = "CanAccess")]
+    [Route("[controller]/{clientno}")]
+    [HasAuthorizeAttribute(Permissions = "WeatherReader,WeatherAdmin")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
