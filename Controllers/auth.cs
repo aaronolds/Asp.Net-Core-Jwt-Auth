@@ -60,7 +60,7 @@ namespace aspnetcoreauth.Controllers
               issuer: _config["Tokens:Issuer"],
               audience: _config["Tokens:Audience"],
               claims: claims,
-              expires: DateTime.UtcNow.AddMinutes(60),
+              expires: DateTime.UtcNow.AddYears(1),
               signingCredentials: creds
               );
 
